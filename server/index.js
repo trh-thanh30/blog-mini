@@ -16,12 +16,14 @@ app.use(
 );
 app.use(cookieParser());
 mongoose
-  .connect(process.env.MONODB_URL)
+  .connect(process.env.MONGODB_URL)
   .then(() => {
     console.log("Connected to MongoDB");
   })
   .catch((err) => {
     console.log(err.message);
-});
+  });
+app.use("/api/user", require("./routes/user.route.js"));
+app.use("/api/auth", require("./routes/auth.route.js"));
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
