@@ -40,7 +40,10 @@ const signIn = async (req, res) => {
     const isMatch = bcyrptjs.compareSync(password, user.password);
     if (!isMatch)
       return res.status(401).json({ message: "Invalid credentials" });
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      { id: user._id, isAdmin: user.isAdmin },
+      process.env.JWT_SECRET
+    );
     const expiryDate = new Date(Date.now() + 3600000);
     const { password: hashedPassword, ...rest } = user._doc;
     res
@@ -54,4 +57,10 @@ const signIn = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-module.exports = { signIn, signUp };
+const signOut = async (req, res) => {
+  res
+    .clearCookie("access_token")
+    .status(200)
+    .json({ message: "Signed out successfully" });
+};
+module.exports = { signIn, signUp, signOut };

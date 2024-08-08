@@ -25,5 +25,6 @@ mongoose
   });
 app.use("/api/user", require("./routes/user.route.js"));
 app.use("/api/auth", require("./routes/auth.route.js"));
+app.use("/api/blog", require("./routes/blog.route.js"));
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
